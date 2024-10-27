@@ -3,6 +3,7 @@
 Coding tasks and projects with Emanuel as my supervisor
 
 Tasks are divided into categories: Easy Level, Normal Level, Hard Level, App Level
+
 Each task lives in its own file
 
 ### Requirements for running tasks:
