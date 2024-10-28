@@ -15,9 +15,15 @@ scores = ["1:2", "0:0", "3:2", "1:0", "0:1", "4:1"]
 
 # Don't change the code above this line
 
-
+# Only works when boths scores are single digit
 def calculate_points(scores):
-    return
+    points = 0
+    for i in scores:
+        if int(i[0]) > int(i[-1]):
+            points += 3
+        elif int(i[0]) == int(i[-1]):
+            points += 1
+    return points
 
 
 # Don't change the code below this line

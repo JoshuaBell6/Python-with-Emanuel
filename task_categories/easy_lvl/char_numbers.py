@@ -5,3 +5,13 @@ Example:
     input -> Test sentence
     output -> 12
 """
+
+user = input()
+
+# Sum of characters in string without spaces (' ')
+chars = 0
+for i in user:
+    if i != ' ':
+        chars += 1
+        
+print(chars)

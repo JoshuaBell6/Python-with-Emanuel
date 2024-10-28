@@ -6,6 +6,9 @@ Don't change the code above this line
 """
 
 # Write missing code here
+var1 = 'Hello world,'
+var2 = 'I am a'
+var3 = 'programmer'
 
 """
 Don't change the code below this line

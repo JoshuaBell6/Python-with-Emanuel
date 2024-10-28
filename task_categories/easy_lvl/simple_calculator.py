@@ -7,3 +7,16 @@ Example:
     input -> +
     output -> 10
 """
+
+x = int(input())
+y = int(input())
+operation = input()
+
+if operation == '+':
+    print(x + y)
+elif operation == '-':
+    print(x - y)
+elif operation == '*':
+    print(x * y)
+elif operation == '/':
+    print(x / y)

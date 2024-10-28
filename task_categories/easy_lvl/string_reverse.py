@@ -4,3 +4,7 @@ Example:
     input -> "Test string"
     output -> "gnirts tseT"
 """
+
+user = input()
+
+print(user[::-1])
