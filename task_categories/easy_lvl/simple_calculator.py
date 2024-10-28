@@ -20,3 +20,7 @@ elif operation == '*':
     print(x * y)
 elif operation == '/':
     print(x / y)
+
+# TASK OBSERVATIONS:
+# Always explain to user what is expected to input
+# This is the simplest version of calculator with many flaws (simple_calculator_2 will have harder requirements)

@@ -19,4 +19,7 @@ elif user % 5 == 0:
 else:
     print("None of the above")
 
-
+# TASK OBSERVATIONS:
+# Always explain to user what is expected to input
+# If you input string, the program breaks
+# OPTIONAL: Try to fix the string input problem

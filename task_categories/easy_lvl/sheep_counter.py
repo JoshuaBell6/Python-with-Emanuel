@@ -12,3 +12,8 @@ for i in range(user):
     print(f"{i+1} sheep... ", end='')
 
 print("zzz")
+
+# TASK OBSERVATIONS:
+# Always explain to user what is expected to input
+# If you input string, the program breaks
+# OPTIONAL: Try to fix the string input problem
