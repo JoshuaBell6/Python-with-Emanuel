@@ -18,13 +18,24 @@ scores = ["1:2", "0:0", "3:2", "1:0", "0:1", "4:1"]
 
 def calculate_points(scores):  # Only works when both scores are single digit
     # TODO: fix the function so that both tests work
+    # points = 0
+    # for i in scores:
+    #     if int(i[0]) > int(i[-1]):
+    #         points += 3
+    #     elif int(i[0]) == int(i[-1]):
+    #         points += 1
+    # return points
+
     points = 0
-    for i in scores:
-        if int(i[0]) > int(i[-1]):
-            points += 3
-        elif int(i[0]) == int(i[-1]):
+    for score in scores:        
+        x, y = map(int, score.split(':'))
+        
+        if x > y:
+            points +=3
+        elif x == y:
             points += 1
-    return points
+        
+    return points 
 
 
 # Don't change the code below this line

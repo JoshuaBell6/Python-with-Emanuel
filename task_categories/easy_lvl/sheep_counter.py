@@ -6,7 +6,12 @@ Example:
     output -> 1 sheep... 2 sheep... 3 sheep... zzz
 """
 
-user = int(input())
+while True:
+    try:
+        user = int(input("Enter a number: "))
+        break
+    except ValueError:
+        print("Invalid input. Please input a valid number.")
 
 for i in range(user):
     print(f"{i+1} sheep... ", end='')

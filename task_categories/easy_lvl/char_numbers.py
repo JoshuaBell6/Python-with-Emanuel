@@ -6,7 +6,7 @@ Example:
     output -> 12
 """
 
-user = input()
+user = input("Enter a string: ")
 
 # Sum of characters in string without spaces (' ')
 chars = 0

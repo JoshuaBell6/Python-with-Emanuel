@@ -8,18 +8,29 @@ Example:
     output -> 10
 """
 
-x = int(input())
-y = int(input())
-operation = input()
+while True:
+    try:
+        x = int(input("Enter number 1: "))
+        y = int(input("Enter number 2: "))
+        break
+    except ValueError:
+        print("Invalid input. Please enter a valid number.")
+
+
+operation = input("Enter an operation (+, -, *, or /): ")
+while operation not in '+-*/':
+    print("Invalid operation!")
+    operation = input("Enter an operation (+, -, *, or /): ")
+
 
 if operation == '+':
-    print(x + y)
+    print(f"{x}+ {y} = {x + y}")
 elif operation == '-':
-    print(x - y)
+    print(f"{x} - {y} = {x - y}")
 elif operation == '*':
-    print(x * y)
+    print(f"{x} * {y} = {x * y}")
 elif operation == '/':
-    print(x / y)
+    print(f"{x} / {y} = {x / y}")
 
 # TASK OBSERVATIONS:
 # Always explain to user what is expected to input
