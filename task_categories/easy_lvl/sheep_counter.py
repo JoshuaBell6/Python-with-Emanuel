@@ -19,6 +19,5 @@ for i in range(user):
 print("zzz")
 
 # TASK OBSERVATIONS:
-# Always explain to user what is expected to input
-# If you input string, the program breaks
-# OPTIONAL: Try to fix the string input problem
+# Always explain to user what is expected to input (fixed)
+# If you input string, the program breaks (fixed)
