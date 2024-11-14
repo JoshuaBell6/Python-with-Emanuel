@@ -9,8 +9,26 @@ Example:
     output -> (123) 456-7890
 """
 
+def is_convertible_to_int(value):
+    try:
+        int(value)
+        return True
+    except ValueError:
+        return False
 
 def convert_phone_number(num):
+    num = str(num)
+
+    # Testing if input is valid //DOESN'T WORK  
+    if not is_convertible_to_int(num):
+        return "Invalid input"
+
+    if len(num) != 10:
+        return "Input must be exactly 10 digits long."
+        
+
+    num = '(' + str(num[:3]) + ') ' + num[3:6] + '-' + num[6:]
+
     return num
 
 # Don't change the code below this line

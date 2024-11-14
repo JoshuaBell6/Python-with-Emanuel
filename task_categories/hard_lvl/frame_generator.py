@@ -14,3 +14,15 @@ Example:
 """
 
 # Write your code below this line
+
+user_string = input("Enter a string: ")
+
+character = input("Enter a character to be used as border: ")
+if len(character) != 1:
+    print("Enter exactly one character.")
+    character = input("Enter a character to be used as border: ")
+
+print((len(user_string) + 4) * character)
+print(character + " " + user_string + " " + character)
+print((len(user_string) + 4) * character)
+

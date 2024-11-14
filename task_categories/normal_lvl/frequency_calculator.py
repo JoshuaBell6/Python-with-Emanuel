@@ -13,7 +13,22 @@ Example:
 
 
 def calculate_frequency(input):
-    return input
+    list_of_numbers = list(map(int, input.split(", ")))
+    dct = {}
+
+    # Initalize dictionary with given keys
+    for char in list_of_numbers:
+        dct[char] = 0
+
+    # Updates dictionary values with each recurrence of a number
+    for char in list_of_numbers:
+        dct[char] += 1
+
+    max_key = max(dct, key = dct.get)
+    max_value = dct[max_key]
+    result = [max_key, max_value]
+
+    return result
 
 # Don't change the code below this line
 

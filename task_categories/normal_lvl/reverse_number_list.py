@@ -6,7 +6,15 @@ Example:
 
 
 def reverse_number_list(num):
-    return num
+    num = str(num)
+    lst = []
+    for digit in num:
+        lst.append(int(digit))
+        reversed = reverse_list(lst)
+    return reversed
+
+def reverse_list(lst):
+    return lst[::-1]
 
 # Don't change the code below this line
 

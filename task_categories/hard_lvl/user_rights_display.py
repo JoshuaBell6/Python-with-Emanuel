@@ -10,8 +10,23 @@ Rules:
 """
 
 
-def display_user_rights():
-    pass
+def display_user_rights(role,access_level):
+    rights = {
+        'support': {'database': 'read_only', 'reporting': 'view_reports', 'user_managment': 'basic_interaction', 'file': 'view_files', 'project_managment': 'view_projects', 'finances': 'none', 'sys_config': 'view_settings', 'security': 'view_logs'},
+        'sales': {'database': 'edit', 'reporting': 'generate_reports', 'user_managment': 'basic_interaction', 'file': 'edit_files', 'project_managment': 'task_managment', 'finances': 'budget_managment', 'sys_config': 'basic_config', 'security': 'none'},
+        'marketing': {'database': 'read_only', 'reporting': 'full_control', 'user_managment': 'none', 'file': 'manage_files', 'project_managment': 'project_admin', 'finances': 'view_financials', 'sys_config': 'admin_config', 'security': 'view_logs'},
+        'finance': {'database': 'full_control', 'reporting': 'generate_reports', 'user_managment': 'none', 'file': 'view_files', 'project_managment': 'view_projects', 'finances': 'full_control', 'sys_config': 'admin_config', 'security': 'audit_access'},
+        'engineering': {'database': 'edit', 'reporting': 'generate_reports', 'user_managment': 'basic_interaction', 'file': 'full_control', 'project_managment': 'full_project_control', 'finances': 'none', 'sys_config': 'full_system_control', 'security': 'policy_managment'},
+        'hr': {'database': 'none', 'reporting': 'generate_reports', 'user_managment': 'full_control', 'file': 'edit_files', 'project_managment': 'project_admin', 'finances': 'approval_auth', 'sys_config': 'admin_config', 'security': 'audit_access'},
+        'product': {'database': 'edit', 'reporting': 'generate_reports', 'user_managment': 'basic_interaction', 'file': 'manage_files', 'project_managment': 'full_project_control', 'finances': 'view_financials', 'sys_config': 'admin_config', 'security': 'view_logs'},
+        'legal': {'database': 'none', 'reporting': 'view_reports', 'user_managment': 'none', 'file': 'view_files', 'project_managment': 'view_projects', 'finances': 'approval_auth', 'sys_config': 'policy_managment', 'security': 'full_control'},
+        'operations': {'database': 'full_control', 'reporting': 'generate_reports', 'user_managment': 'basic_interaction', 'file': 'full_control', 'project_managment': 'task_managment', 'finances': 'budget_managment', 'sys_config': 'admin_config', 'security': 'view_logs'},
+        'it': {'database': 'full_control', 'reporting': 'full_control', 'user_managment': 'user_managment', 'file': 'full_control', 'project_managment': 'project_admin', 'finances': 'none', 'sys_config': 'full_control', 'security': 'full_control'}
+    }
+    
+    return rights.get(role).get(access_level)
+
+
 
 
 # Don't change the code below this line
