@@ -9,6 +9,7 @@ Example:
     output -> (123) 456-7890
 """
 
+
 def is_convertible_to_int(value):
     try:
         int(value)
@@ -16,16 +17,16 @@ def is_convertible_to_int(value):
     except ValueError:
         return False
 
+
 def convert_phone_number(num):
     num = str(num)
 
-    # Testing if input is valid //DOESN'T WORK  
+    # Testing if input is valid //DOESN'T WORK
     if not is_convertible_to_int(num):
         return "Invalid input"
 
     if len(num) != 10:
         return "Input must be exactly 10 digits long."
-        
 
     num = '(' + str(num[:3]) + ') ' + num[3:6] + '-' + num[6:]
 
@@ -39,3 +40,6 @@ if convert_phone_number(5253203443) == "(525) 320-3443":
     print('TASK IS COMPLETE!')
 else:
     print("Task failed! Try again.")
+
+# OBSERVATIONS:
+# Despite having tests and the end, this should've been a console program that lets you input any numbers you want and if the input is correct, convert them into a phone number syntax

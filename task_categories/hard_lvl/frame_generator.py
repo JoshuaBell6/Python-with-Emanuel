@@ -26,3 +26,6 @@ print((len(user_string) + 4) * character)
 print(character + " " + user_string + " " + character)
 print((len(user_string) + 4) * character)
 
+# OBSERVATIONS:
+# Bug: The program allows multiple chars as a border after a user has been asked to put one, if just enter is pressed, then there is no visible border
+# Bug: If user types space to be used as a border, the border is not visible

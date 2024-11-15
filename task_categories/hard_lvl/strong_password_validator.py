@@ -30,7 +30,8 @@ while loop:
             capital_letters += 1
 
     if capital_letters == 0:
-        print("Password must contain at least one capital letter, but cannot begin with it.")
+        print(
+            "Password must contain at least one capital letter, but cannot begin with it.")
         errors += 1
 
     # Digit check
@@ -73,3 +74,7 @@ while loop:
 
 
 print("Password created successfully!")
+
+# OBSERVATIONS
+# SyntaxWarning: invalid escape sequence '\]' if symbol in '!\"#$%&\'()*<=>?@[\]^`{|}':
+# Never use string as a list of chars
