@@ -35,6 +35,8 @@ rights = {
 ## NEW PART ##
 
 # Changes user_managment --> users
+
+
 def modify_to_users(rights):
     new_rights = {}
     for role in rights.keys():
@@ -47,6 +49,8 @@ def modify_to_users(rights):
     return new_rights
 
 # Changes project_managment --> project
+
+
 def modify_to_project(rights):
     new_rights = {}
     for role in rights.keys():
@@ -59,12 +63,18 @@ def modify_to_project(rights):
     return new_rights
 
 # Combines both functions into one
+
+
 def modify_rights(rights):
     return modify_to_project(modify_to_users(rights))
 
+
 # Modify 'rights' database
-rights = modify_rights(rights) # if this line is commented, it only passes 60/80
+# if this line is commented, it only passes 60/80
+rights = modify_rights(rights)
 ## END OF NEW PART ##
+# Try to write one method instead of combining them this way.
+
 
 def display_user_rights(role, access_level):
     return rights.get(role).get(access_level)

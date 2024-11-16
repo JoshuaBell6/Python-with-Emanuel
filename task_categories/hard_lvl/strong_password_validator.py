@@ -26,7 +26,7 @@ while loop:
     # Capital letter check
     capital_letters = 0
     for char in user[1:]:
-        if char in 'ABCDEFGHIJKLOMNPQRSTUVWXYZ':
+        if char in 'ABCDEFGHIJKLOMNPQRSTUVWXYZ':  # this should also be a list
             capital_letters += 1
 
     if capital_letters == 0:
@@ -37,7 +37,7 @@ while loop:
     # Digit check
     digits = 0
     for digit in user:
-        if digit in '0123456789':
+        if digit in '0123456789':  # this should also be a list
             digits += 1
 
     if digits == 0:
@@ -46,9 +46,11 @@ while loop:
 
     # Symbol check
     symbols = 0
-    set_of_symbols = set(r'!\"#$%&\'()*<=>?@[\]^`{|}') # How else do I fix this?
+    # set_of_symbols = set(r'!\"#$%&\'()*<=>?@[\]^`{|}') # How else do I fix this?
+    symbols_list = ['!', "\\", '"', '#', '$', '%', '&', "'",
+                    '(', ')', '*', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}']
     for symbol in user:
-        if symbol in set_of_symbols:
+        if symbol in symbols_list:
             symbols += 1
 
     if symbols == 0:
@@ -56,13 +58,14 @@ while loop:
         errors += 1
 
     # Seperator check
-    seperators = 0
-    set_of_seperators = set(r'.,;:_+-/~ ') # How else do I fix this?
-    for seperator in user:
-        if seperator in set_of_seperators:
-            seperators += 1
+    separators = 0
+    # set_of_seperators = set(r'.,;:_+-/~ ')  # How else do I fix this?
+    separators_list = ['.', ',', ';', ':', '_', '+', '-', '/', '~', ' ']
+    for separator in user:
+        if separator in separators_list:
+            separators += 1
 
-    if seperators != 0:
+    if separators != 0:
         print("Password cannot contain separator characters (space . , ; : _ + - / ~).")
         errors += 1
 
