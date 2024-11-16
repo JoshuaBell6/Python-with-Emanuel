@@ -46,8 +46,9 @@ while loop:
 
     # Symbol check
     symbols = 0
+    set_of_symbols = set(r'!\"#$%&\'()*<=>?@[\]^`{|}') # How else do I fix this?
     for symbol in user:
-        if symbol in '!\"#$%&\'()*<=>?@[\]^`{|}':
+        if symbol in set_of_symbols:
             symbols += 1
 
     if symbols == 0:
@@ -56,8 +57,9 @@ while loop:
 
     # Seperator check
     seperators = 0
+    set_of_seperators = set(r'.,;:_+-/~ ') # How else do I fix this?
     for seperator in user:
-        if seperator in '.,;:_+-/~ ':
+        if seperator in set_of_seperators:
             seperators += 1
 
     if seperators != 0:

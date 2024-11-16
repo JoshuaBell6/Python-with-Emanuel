@@ -18,8 +18,11 @@ Example:
 user_string = input("Enter a string: ")
 
 character = input("Enter a character to be used as border: ")
-if len(character) != 1:
-    print("Enter exactly one character.")
+while len(character) != 1 or character == ' ': # Bug fix: 'while' instead of 'if' 
+    if len(character) != 1: # Bug fix
+        print("Enter exactly one character.")
+    if character == ' ': # Bug fix
+        print("Character can't be space.")
     character = input("Enter a character to be used as border: ")
 
 print((len(user_string) + 4) * character)
