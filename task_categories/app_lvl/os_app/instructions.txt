@@ -1,0 +1,51 @@
+TASK: Build a simple mini OS console app.
+
+Build an app that acts as a mini OS (operating system).
+The app should be fully console interractive. Exit the app only if a user types a command.
+Use a guideline below for creating directories and files (commands are inspired by Linux OS).
+
+Guidelines:
+    - "ls" command displays all directories and files on the current directory level
+    - "cd" command changes a current directory
+        - command takes an argument: {dirname}
+        - stay in the current directory if an argument is missing (see FULL EXAMPLE)
+        - cd .. goes back to the parent directory
+        - cd . stays in the current directory
+        - cd {dirname that doesn't exist} displays an error (see FULL EXAMPLE)
+    - "mkdir" command creates a new directory
+        - command takes an argument: {dirname}
+        - display an error if an argument is missing (see FULL EXAMPLE)
+        - if an argument contains any character other than letters, numbers or _, display an error (see FULL EXAMPLE)
+    - "touch" command creates a new file
+        - command takes an argument: {filename}.{extension}
+        - display an error if an argument is missing (see FULL EXAMPLE)
+        - display an error if {filename} is provided without {extension} (see FULL EXAMPLE)
+    - "mv" command renames a file or a directory (syntax: mv {existing_name} {new_name})
+        - command takes following arguments: {existing_name} {new_name}
+        - display an error if an argument is missing, display different errors according to the arguments provided (see FULL EXAMPLE)
+        - display an error if {existing_name} doesn't exist in the current directory (see FULL EXAMPLE)
+    - "rmdir" command deletes a directory, but only if its empty
+        - command takes an argument: {dirname}
+        - display an error if an argument is missing (see FULL EXAMPLE)
+        - display an error if {dirname} doesn't exist in the current directory (see FULL EXAMPLE)
+        - display an error if {dirname} directory isnt empty (see FULL EXAMPLE)
+        - display an error if {dirname} is a file (see FULL EXAMPLE)
+    - "rm" command deletes a file or a directory along with its contents
+        - command takes an argument: {name}
+        - display an error if an argument is missing (see FULL EXAMPLE)
+        - display an error if {name} doesn't exist in the current directory (see FULL EXAMPLE)
+        - display an error if {name} is a current directory (see FULL EXAMPLE)
+    - "help" command shows all available commands to the user and what they do
+    - "q" command exits the app
+    All of these commands have an example in the FULL EXAMPLE
+
+Notes:
+    - The app always starts with the main directory.
+    - The app remembers directories and files as long as it is running.
+    - You are able to nest directories and files infinitely
+    - Directories and files are imaginary, you don't have to create actual folders and files.
+
+    - There are no restrictions on how to build the app. Use all the knowledge you've accumulated so far.
+
+Bonus Challenge:
+    - The app remembers all directories and files after closing and running again (still imaginary).
