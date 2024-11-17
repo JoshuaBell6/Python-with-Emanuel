@@ -25,8 +25,9 @@ while loop:
 
     # Capital letter check
     capital_letters = 0
+    list_of_capital_letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'O', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
     for char in user[1:]:
-        if char in 'ABCDEFGHIJKLOMNPQRSTUVWXYZ':  # this should also be a list
+        if char in list_of_capital_letters:  # this should also be a list ## LIST
             capital_letters += 1
 
     if capital_letters == 0:
@@ -36,8 +37,9 @@ while loop:
 
     # Digit check
     digits = 0
+    list_of_digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
     for digit in user:
-        if digit in '0123456789':  # this should also be a list
+        if digit in list_of_digits:  # this should also be a list ## LIST
             digits += 1
 
     if digits == 0:

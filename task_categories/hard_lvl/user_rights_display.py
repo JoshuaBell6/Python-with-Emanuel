@@ -65,8 +65,24 @@ def modify_to_project(rights):
 # Combines both functions into one
 
 
+# def modify_rights(rights):
+#     return modify_to_project(modify_to_users(rights))
+
+
+# Single function to modify rights
+
 def modify_rights(rights):
-    return modify_to_project(modify_to_users(rights))
+    new_rights = {}
+    for role in rights.keys():
+        new_rights[role] = {}
+        for access_level in rights[role].keys():
+            if access_level == 'user_managment':
+                new_rights[role]['users'] = rights[role][access_level]
+            elif access_level == 'project_managment':
+                new_rights[role]['project'] = rights[role][access_level]
+            else:
+                new_rights[role][access_level] = rights[role][access_level]
+    return new_rights
 
 
 # Modify 'rights' database
