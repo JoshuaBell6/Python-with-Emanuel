@@ -35,13 +35,11 @@ def cd(key, directories, rest, one_word):
     
     # cd {directory name}
     else:           
-        exists = False
-        if one_word in directories[key]:
+        if (one_word in directories[key] and not ends_with_extension(one_word)):
             key = (one_word, key[0])
-            exists = True
 
         # cd {dirname that doesn't exist}
-        if not exists:
+        else:
             print(f"'{one_word}' does not exist in this directory")
     
     return key
@@ -117,28 +115,46 @@ def mv(key, directories, rest):
         if existing_name not in remove_after_dot_list(directories[key]):
             print(f"'{existing_name}' does not exist in this directory")
 
-        # Change file name
-        for value in directories[key]:
-            if value != existing_name:
-                # values = directories[(existing_name, key[0])] # files have nothing in them
-                # directories[(add_clean_extension(existing_name, new_name), key[0])] = values
-                directories[key].remove(value) # removes old name from list
-                directories[(add_clean_extension(value, new_name), key[0])] = [] # adds dict item with new name
-                directories.pop((value, key[0]))
-                directories[key] += [(add_clean_extension(value, new_name))]
-                #print("directories.pop(value, key[0]) ", directories.pop(value, key[0]))
-                print(f"'{existing_name}' renamed to '{new_name}'")
-                break
+        elif new_name  in remove_after_dot_list(directories[key]):
+            print(f"'{new_name}' already exists in this directory")
 
-        # Change directory name
-        for value in directories[key]:
-            if value == existing_name:
-                values = directories[(existing_name, key[0])] # values from named directory
-                directories[new_name, key[0]] = values
-                directories[key].remove(existing_name)
-                directories[key].append(new_name)
-                directories.pop((existing_name, key[0]))
-                print(f"'{existing_name}' renamed to '{new_name}'")
+        else:
+            isFile = False
+            # Change file name
+            for value in directories[key]:
+                if value != existing_name and remove_after_dot(value) == existing_name:
+                    directories[key].remove(value) # removes old name from list
+                    directories[(add_clean_extension(value, new_name), key[0])] = [] # adds dict item with new name
+                    directories.pop((value, key[1]))
+                    directories[key] += [(add_clean_extension(value, new_name))]
+                    print(f"'{existing_name}' renamed to '{new_name}'")
+                    isFile = True
+                    break
+
+            # Change directory name
+            if not isFile:
+                for value in directories[key]:
+                    if value == existing_name and remove_after_dot(value) == existing_name:
+                        values = directories[(existing_name, key[0])] # values from named directory
+                        directories[new_name, key[1]] = values # values is a list
+                        directories[key].remove(existing_name) # delete old directory name in current directory
+                        directories[key].append(new_name) # add new directory name in current directory's list
+                        directories.pop((existing_name, key[1])) # delete old directory name in the dictionary
+                        
+                        if len(values) == 1:
+                            undervalues = directories[values[0], existing_name] #'m111'
+                            directories.pop((values[0], existing_name)) # no more m11, m2 : m111
+                            directories.update({(values[0], new_name) : undervalues}) # ('m11', 'm1'): ['m111'] --> ('m11', 'm2'): ['m111']
+
+                        else:
+                            for i in range(len(values)):
+                                undervalues = directories[values[i], existing_name] #'m111'
+                                directories.pop((values[i], existing_name)) # no more m11, m2 : m111
+                                directories.update({(values[i], new_name) : undervalues}) # ('m11', 'm1'): ['m111'] --> ('m11', 'm2'): ['m111']
+                                
+                        print(f"'{existing_name}' renamed to '{new_name}'")
+                        
+                        break
 
 
 # COMMAND rmdir

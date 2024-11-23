@@ -24,6 +24,9 @@ if loaded_data:
 else:
     directories = {key: []}
 loop = True
+commands0 = ['ls', 'help', 'q']
+commands1 = ['cd', 'mkdir', 'touch', 'rmdir', 'rm']
+commands2 = ['mv']
 # end of initial
 
 while loop:
@@ -34,7 +37,16 @@ while loop:
     one_word = one_list_element(rest)
 
     if len(rest) > 2:
-        print(f"No current command allows '{len(rest)}' arguments")
+        print(f"No current command allows {len(rest)} arguments, use 'help' to see the list of available commands")
+
+    elif len(rest) > 0 and command in commands0:
+        print(f"{command} requires no argument/s")
+    
+    elif len(rest) > 1 and command in commands1:
+        print(f"{command} requires exactly one argument")
+
+    elif len(rest) > 2 and command in commands2:
+        print(f"{command} requires exactly two arguments")
 
     elif command == "?":
         print("Directories = ", directories)
@@ -43,6 +55,7 @@ while loop:
         print("key = ", key)
    
     elif command == 'q':
+        # save directory in a file
         variable_to_save = directories
         with open(filename, 'wb') as file:
             pickle.dump(variable_to_save, file)
@@ -56,7 +69,7 @@ while loop:
 
     elif command == 'cd':
         key = cd(key, directories, rest, one_word)
-       
+
     elif command == 'mkdir':
         if valid_mkdir(rest, one_word):
             add_to_directory(directories, key, new_dir = one_word)

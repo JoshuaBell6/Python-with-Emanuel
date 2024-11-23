@@ -16,10 +16,14 @@ Guidelines:
         - command takes an argument: {dirname}
         - display an error if an argument is missing (see FULL EXAMPLE)
         - if an argument contains any character other than letters, numbers or _, display an error (see FULL EXAMPLE)
+        - NEW: Restrictions:
+            - can't create a directory with an existing name in the current directory
     - "touch" command creates a new file
         - command takes an argument: {filename}.{extension}
         - display an error if an argument is missing (see FULL EXAMPLE)
         - display an error if {filename} is provided without {extension} (see FULL EXAMPLE)
+        - NEW: Restrictions:
+            - can't create a file with an existing name in the current directory
     - "mv" command renames a file or a directory (syntax: mv {existing_name} {new_name})
         - command takes following arguments: {existing_name} {new_name}
         - display an error if an argument is missing, display different errors according to the arguments provided (see FULL EXAMPLE)
@@ -38,6 +42,15 @@ Guidelines:
     - "help" command shows all available commands to the user and what they do
     - "q" command exits the app
     All of these commands have an example in the FULL EXAMPLE
+
+    NEW GUIDELINES ADAPTED:
+    - display an error if the number of arguments for any command is wrong
+        Examples:
+        - cd mydir your dir --> error
+        - q anything --> error
+        - mv f1 f2 f3 --> error
+        - ...
+    - in a current directory, files and directories also can't share a name
 
 Notes:
     - The app always starts with the main directory.
