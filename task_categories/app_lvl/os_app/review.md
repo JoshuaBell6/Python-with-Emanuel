@@ -6,10 +6,6 @@
 
 - adding an extra argument after a required one crashes the program
 
-### 'touch' command
-
-- adding as many dots in the extension is allowed, should be restricted to only one
-
 ### 'mv' command
 
 - successful 'mv' command displays the success message twice
