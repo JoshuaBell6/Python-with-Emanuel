@@ -5,6 +5,40 @@ Rules:
     - Neither of the 4 classes are allowed to have "describe" method in them
 """
 
+class Animal():
+    def __init__(self, typ, legs, sound):
+        self.typ = typ
+        self.legs = legs
+        self.sound = sound
+
+    def get_type(self):
+        return self.typ
+
+    def get_number_of_legs(self):
+        return self.legs
+    
+    def say(self):
+        return self.sound 
+    
+    def describe(self):
+        return f"{self.typ} with {self.legs} legs that says '{self.sound}'."
+
+
+class Dog(Animal):
+    def __init__(self):
+        super().__init__('A mammal', 4, 'bark')
+
+class Cat(Animal):
+    def __init__(self):
+        super().__init__('A mammal', 4, 'meow')
+    
+class Bird(Animal):
+    def __init__(self):
+        super().__init__('A bird', 2, 'chirp')
+
+class Ant(Animal):
+    def __init__(self):
+        super().__init__('An insect', 8, 'nothing')
 
 # Don't change the code below this line
 

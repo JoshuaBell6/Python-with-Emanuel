@@ -31,9 +31,68 @@ Extra challenge: Don't use dictionaires.
 """
 
 
-class Book:
-    pass
+class Book():
+    def __init__(self, title, author, num_pages) -> None:
+        self.title = title
+        self.author = author
+        self.num_pages = num_pages
+
+class Library():
+    def __init__(self) -> None:
+        self.content = [] 
+
+    def add_book(self, book):
+        self.content.append(book)
+
+    def delete_book(self, book_name):
+        for book in self.content:
+            if book.title == book_name:
+                self.content.remove(book)
+                return True
+        return False
+
+    def get_info(self):
+        if not self.content:
+            return "(empty)"
+        info = ""
+        for i, book in enumerate(self.content, 1):
+            info += f"Book {i}: {book.title} by {book.author}, {book.num_pages} pages\n"
+        return info.strip()
+            
+
+library = Library()
+
+loop = True
+
+while loop:
+    print("Library:")
+    print(library.get_info())
+    print("1. Add a book")
+    print("2. Delete a book")   
+    print("3. Quit")   
+
+    command = int(input())
+
+    if command == 1:
+        # add book
+        title = input("Enter the book title: ") # Test Book
+        author = input("Enter the book author: ") # Emanuel
+        num_pages = int(input("Enter the number of pages: ")) # 56
+        library.add_book(Book(title, author, num_pages))
+
+    elif command == 2:
+        # delete book
+        title = input("Enter the book name you want to delete: ") # Test Book
+        if not library.delete_book(title):
+            print(f"Book '{title}' not found in the library.")
+
+    elif command == 3:
+        # quit
+        loop = False
+
+    else:
+        print("No valid command")
+
+    
 
 
-class Library:
-    pass
