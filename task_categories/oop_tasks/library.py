@@ -37,9 +37,10 @@ class Book():
         self.author = author
         self.num_pages = num_pages
 
+
 class Library():
     def __init__(self) -> None:
-        self.content = [] 
+        self.content = []
 
     def add_book(self, book):
         self.content.append(book)
@@ -58,7 +59,7 @@ class Library():
         for i, book in enumerate(self.content, 1):
             info += f"Book {i}: {book.title} by {book.author}, {book.num_pages} pages\n"
         return info.strip()
-            
+
 
 library = Library()
 
@@ -68,21 +69,21 @@ while loop:
     print("Library:")
     print(library.get_info())
     print("1. Add a book")
-    print("2. Delete a book")   
-    print("3. Quit")   
+    print("2. Delete a book")
+    print("3. Quit")
 
     command = int(input())
 
     if command == 1:
         # add book
-        title = input("Enter the book title: ") # Test Book
-        author = input("Enter the book author: ") # Emanuel
-        num_pages = int(input("Enter the number of pages: ")) # 56
+        title = input("Enter the book title: ")  # Test Book
+        author = input("Enter the book author: ")  # Emanuel
+        num_pages = int(input("Enter the number of pages: "))  # 56
         library.add_book(Book(title, author, num_pages))
 
     elif command == 2:
         # delete book
-        title = input("Enter the book name you want to delete: ") # Test Book
+        title = input("Enter the book name you want to delete: ")  # Test Book
         if not library.delete_book(title):
             print(f"Book '{title}' not found in the library.")
 
@@ -93,6 +94,5 @@ while loop:
     else:
         print("No valid command")
 
-    
 
-
+# Entering a string as a number of pages breaks the app
