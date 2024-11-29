@@ -42,3 +42,151 @@ Rules:
     START THE APP WITH THE ACCOUNT OF YOUR CHOOSING (no need to handle cases where an account doesn't exist)
 
 """
+
+class Bank_Account():
+    def __init__(self, account_holder: str, balance: int) -> None:
+        self.account_holder = account_holder
+        self.balance = balance 
+        self.currency = 'EUR' # default currency when creating a Bank Account
+
+class ATM():
+    def __init__(self, joshua) -> None:
+        self.accounts = [joshua] # initial bank account in ATM
+        self.current_user = self.accounts[0] # initial current user
+        
+    def menu(self, account):
+        print(f"""Menu:
+Account: {account.account_holder} ({account.currency})
+1. Switch Accounts
+2. Create new account
+3. Deposit funds
+4. Withdraw funds
+5. Display current balance
+6. Change currency
+7. Leave""")
+        
+    def deposit(self, account, amount: int):
+        account.balance += amount
+        print(f"Successfully deposited {amount} {account.currency}.")
+
+    def withdraw(self, account, amount: int):
+        if account.balance >= amount:
+            account.balance -= amount
+            print(f"Successfully withdrawn {amount} {account.currency}.")
+        else:
+            print(f"Not enough funds to withdraw {amount} {account.currency}.")
+
+    def get_balance(self, account):
+        print(f"{account.account_holder} has {account.balance} {account.currency}.")
+
+    def switch_account(self):
+        for i, acc in enumerate(self.accounts, 1):
+            print(f"{i}: {acc.account_holder}")
+        
+        while True:
+            try:
+                name = int(input("Choose an account by entering the number of the holder you want to switch to: "))
+                if name > len(self.accounts):
+                    print("Invalid input. No such account with that number.")
+                    return
+                break  # Exit the loop if successful conversion to int
+            except ValueError:
+                print("Invalid input. Please enter a number.")
+
+        self.current_user = self.accounts[name - 1]
+
+    def create_account(self, account):
+        self.accounts.append(account)
+        print(f"{account.account_holder}'s account successfully added.")
+
+    def change_currency(self, account, currency: str):
+        
+        rates = {'EUR/GBP':1.2,
+        'EUR/USD':0.95,
+        'EUR/CAD':0.68,
+        'GBP/USD':0.79,
+        'GBP/CAD':0.56,
+        'USD/CAD':0.71
+        }
+
+        if account.currency == currency:
+            print("Account is already set to this currency.")
+            return
+        
+        elif f"{account.currency}/{currency}" in rates.keys():
+            account.balance /= rates[f"{account.currency}/{currency}"]  
+
+        else:
+            account.balance *= rates[f"{currency}/{account.currency}"]
+            print(account.balance)
+
+        account.currency = currency
+        fee = (5 / rates[f"EUR/{currency}"]) # 5€ fee
+        account.balance -= fee
+
+
+
+# START initial Bank Account in ATM
+joshua = Bank_Account('Joshua Bell', 100) 
+atm = ATM(joshua)
+# END initial Bank Account in ATM
+
+loop = True
+while loop:
+    atm.menu(atm.current_user)
+
+    command = int(input())
+
+    if command == 1:
+        atm.switch_account()
+
+    elif command == 2:
+        first_name = input("Enter first name: ")
+        last_name = input("Enter last name: ")
+        full_name = first_name + ' ' + last_name
+        atm.create_account(Bank_Account(account_holder=full_name, balance=0))
+    
+    elif command == 3:
+        while True:
+            try:
+                amount = int(input("Enter amount you want to deposit: "))
+                break  # Exit the loop if successful conversion to int
+            except ValueError:
+                print("Invalid input. Please enter a number.")
+        
+        atm.deposit(atm.current_user, amount)
+
+    elif command == 4:
+        amount = 0
+        withdraw_numbers = [10, 20, 30, 50, 100, 150, 200, 300, 500]
+        while True:
+            try:
+                amount = int(input("Enter amount you want to withdraw (10, 20, 30, 50, 100, 150, 200, 300, 500): "))
+                if amount in withdraw_numbers:
+                    break  # Exit the loop if successful conversion to int
+                else:
+                    print("Invalid amount.")
+            except ValueError:
+                print("Invalid input. Please enter a number.")
+        
+        atm.withdraw(atm.current_user, amount)
+
+    elif command == 5:
+        atm.get_balance(atm.current_user)
+
+    elif command == 6:
+        available_currencies = ['EUR', 'GBP', 'USD', 'CAD']
+        currency = ''
+        while True:
+            currency = input("Enter the currency you want to change to (EUR, USD, GBP and CAD): ")
+            if currency not in available_currencies:
+                print("No such currency available.")
+            else:
+                break
+        atm.change_currency(atm.current_user, currency)
+
+    elif command == 7:
+        loop = False # exits App
+
+    else:
+        print("Invalid command.")
