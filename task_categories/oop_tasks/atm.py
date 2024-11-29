@@ -43,17 +43,19 @@ Rules:
 
 """
 
+
 class Bank_Account():
     def __init__(self, account_holder: str, balance: int) -> None:
         self.account_holder = account_holder
-        self.balance = balance 
-        self.currency = 'EUR' # default currency when creating a Bank Account
+        self.balance = balance
+        self.currency = 'EUR'  # default currency when creating a Bank Account
+
 
 class ATM():
     def __init__(self, joshua) -> None:
-        self.accounts = [joshua] # initial bank account in ATM
-        self.current_user = self.accounts[0] # initial current user
-        
+        self.accounts = [joshua]  # initial bank account in ATM
+        self.current_user = self.accounts[0]  # initial current user
+
     def menu(self, account):
         print(f"""Menu:
 Account: {account.account_holder} ({account.currency})
@@ -64,7 +66,7 @@ Account: {account.account_holder} ({account.currency})
 5. Display current balance
 6. Change currency
 7. Leave""")
-        
+
     def deposit(self, account, amount: int):
         account.balance += amount
         print(f"Successfully deposited {amount} {account.currency}.")
@@ -77,15 +79,17 @@ Account: {account.account_holder} ({account.currency})
             print(f"Not enough funds to withdraw {amount} {account.currency}.")
 
     def get_balance(self, account):
-        print(f"{account.account_holder} has {account.balance} {account.currency}.")
+        print(f"{account.account_holder} has {
+              account.balance} {account.currency}.")
 
     def switch_account(self):
         for i, acc in enumerate(self.accounts, 1):
             print(f"{i}: {acc.account_holder}")
-        
+
         while True:
             try:
-                name = int(input("Choose an account by entering the number of the holder you want to switch to: "))
+                name = int(input(
+                    "Choose an account by entering the number of the holder you want to switch to: "))
                 if name > len(self.accounts):
                     print("Invalid input. No such account with that number.")
                     return
@@ -100,34 +104,33 @@ Account: {account.account_holder} ({account.currency})
         print(f"{account.account_holder}'s account successfully added.")
 
     def change_currency(self, account, currency: str):
-        
-        rates = {'EUR/GBP':1.2,
-        'EUR/USD':0.95,
-        'EUR/CAD':0.68,
-        'GBP/USD':0.79,
-        'GBP/CAD':0.56,
-        'USD/CAD':0.71
-        }
+
+        rates = {'EUR/GBP': 1.2,
+                 'EUR/USD': 0.95,
+                 'EUR/CAD': 0.68,
+                 'GBP/USD': 0.79,
+                 'GBP/CAD': 0.56,
+                 'USD/CAD': 0.71
+                 }
 
         if account.currency == currency:
             print("Account is already set to this currency.")
             return
-        
+
         elif f"{account.currency}/{currency}" in rates.keys():
-            account.balance /= rates[f"{account.currency}/{currency}"]  
+            account.balance /= rates[f"{account.currency}/{currency}"]
 
         else:
             account.balance *= rates[f"{currency}/{account.currency}"]
             print(account.balance)
 
         account.currency = currency
-        fee = (5 / rates[f"EUR/{currency}"]) # 5€ fee
+        fee = (5 / rates[f"EUR/{currency}"])  # 5€ fee
         account.balance -= fee
 
 
-
 # START initial Bank Account in ATM
-joshua = Bank_Account('Joshua Bell', 100) 
+joshua = Bank_Account('Joshua Bell', 100)
 atm = ATM(joshua)
 # END initial Bank Account in ATM
 
@@ -145,7 +148,7 @@ while loop:
         last_name = input("Enter last name: ")
         full_name = first_name + ' ' + last_name
         atm.create_account(Bank_Account(account_holder=full_name, balance=0))
-    
+
     elif command == 3:
         while True:
             try:
@@ -153,7 +156,7 @@ while loop:
                 break  # Exit the loop if successful conversion to int
             except ValueError:
                 print("Invalid input. Please enter a number.")
-        
+
         atm.deposit(atm.current_user, amount)
 
     elif command == 4:
@@ -161,14 +164,15 @@ while loop:
         withdraw_numbers = [10, 20, 30, 50, 100, 150, 200, 300, 500]
         while True:
             try:
-                amount = int(input("Enter amount you want to withdraw (10, 20, 30, 50, 100, 150, 200, 300, 500): "))
+                amount = int(input(
+                    "Enter amount you want to withdraw (10, 20, 30, 50, 100, 150, 200, 300, 500): "))
                 if amount in withdraw_numbers:
                     break  # Exit the loop if successful conversion to int
                 else:
                     print("Invalid amount.")
             except ValueError:
                 print("Invalid input. Please enter a number.")
-        
+
         atm.withdraw(atm.current_user, amount)
 
     elif command == 5:
@@ -178,7 +182,8 @@ while loop:
         available_currencies = ['EUR', 'GBP', 'USD', 'CAD']
         currency = ''
         while True:
-            currency = input("Enter the currency you want to change to (EUR, USD, GBP and CAD): ")
+            currency = input(
+                "Enter the currency you want to change to (EUR, USD, GBP and CAD): ")
             if currency not in available_currencies:
                 print("No such currency available.")
             else:
@@ -186,7 +191,35 @@ while loop:
         atm.change_currency(atm.current_user, currency)
 
     elif command == 7:
-        loop = False # exits App
+        loop = False  # exits App
 
     else:
         print("Invalid command.")
+
+
+# OBSERVATIONS
+"""
+USER REVIEW:
+    Switch Accounts:
+        - I accidentaly typed 3 instead of 2 when choosing accounts, it took me to the menu and I had to do it all over again...
+    
+    Deposit funds:
+        - Poor self awarenes protocol, I accidentally typed one extra 0 and it didnt ask me to verify the input...
+        - Again with the menu...
+    
+    Withdraw funds:
+        - Why is 45 invalid number? If I can type what I want, why am I not allowed to input 99% of numbers??
+
+    Display current balance:
+        - I dont want the answer in third person.
+        - I dont want to see 1000 decimals behind my number.
+        - The damn menu pops right after showing me the balance, I dont wanna have to scroll up to find it.
+    
+    Change currency:
+        - I wanted to change USD to EUR and the app broke...
+        - I think Im losing my money when Im changing currencies... This is theft! I might take this to court if proven right.
+    
+    Other:
+        - The first option in the menu is capitalized, others are not, not very professional
+        - The app is trash, I wouldn't recommend it to anyone
+"""
