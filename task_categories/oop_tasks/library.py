@@ -56,8 +56,8 @@ class Library():
         if not self.content:
             return "(empty)"
         info = ""
-        for i, book in enumerate(self.content, 1):
-            info += f"Book {i}: {book.title} by {book.author}, {book.num_pages} pages\n"
+        for i, book in enumerate(self.content):
+            info += f"Book {i + 1}: {book.title} by {book.author}, {book.num_pages} pages\n"
         return info.strip()
 
 
@@ -78,7 +78,12 @@ while loop:
         # add book
         title = input("Enter the book title: ")  # Test Book
         author = input("Enter the book author: ")  # Emanuel
-        num_pages = int(input("Enter the number of pages: "))  # 56
+        while True:
+            try:
+                num_pages = int(input("Enter the number of pages: "))  # 56
+                break  # Exit the loop if successful conversion to int
+            except ValueError:
+                print("Invalid input. Please enter a valid  number of pages.")
         library.add_book(Book(title, author, num_pages))
 
     elif command == 2:
@@ -95,4 +100,4 @@ while loop:
         print("No valid command")
 
 
-# Entering a string as a number of pages breaks the app
+# Entering a string as a number of pages breaks the app (FIXED)
