@@ -57,9 +57,10 @@ class ATM():
         self.current_user = self.accounts[0]  # initial current user
 
     def menu(self, account):
-        print(f"""Menu:
+        print(f"""--------------------------
+Menu:
 Account: {account.account_holder} ({account.currency})
-1. Switch Accounts
+1. Switch accounts
 2. Create new account
 3. Deposit funds
 4. Withdraw funds
@@ -71,16 +72,18 @@ Account: {account.account_holder} ({account.currency})
         account.balance += amount
         print(f"Successfully deposited {amount} {account.currency}.")
 
-    def withdraw(self, account, amount: int):
-        if account.balance >= amount:
-            account.balance -= amount
-            print(f"Successfully withdrawn {amount} {account.currency}.")
-        else:
-            print(f"Not enough funds to withdraw {amount} {account.currency}.")
+    def withdraw(self, account, idx: int):
+        withdraw_numbers = [10, 20, 30, 50, 100, 150, 200, 300, 500]
+        amount = withdraw_numbers[idx - 1]
+        # if account.balance >= amount:
+        account.balance -= amount
+        print(f"Successfully withdrawn {amount} {account.currency}.")
+        # else:
+        #     print(f"Not enough funds to withdraw {amount} {account.currency}.")
+        #     print("Check your balance to see how much money you can withdraw")
 
     def get_balance(self, account):
-        print(f"{account.account_holder} has {
-              account.balance} {account.currency}.")
+        print(f"You have {account.balance:.2f} {account.currency}.") # Why was this differently formated? Your change gave me an error (SyntaxError: unterminated string literal (detected at line 82))
 
     def switch_account(self):
         for i, acc in enumerate(self.accounts, 1):
@@ -92,12 +95,13 @@ Account: {account.account_holder} ({account.currency})
                     "Choose an account by entering the number of the holder you want to switch to: "))
                 if name > len(self.accounts):
                     print("Invalid input. No such account with that number.")
-                    return
+                    return False
                 break  # Exit the loop if successful conversion to int
             except ValueError:
                 print("Invalid input. Please enter a number.")
-
+                
         self.current_user = self.accounts[name - 1]
+        return True
 
     def create_account(self, account):
         self.accounts.append(account)
@@ -122,11 +126,14 @@ Account: {account.account_holder} ({account.currency})
 
         else:
             account.balance *= rates[f"{currency}/{account.currency}"]
-            print(account.balance)
 
         account.currency = currency
-        fee = (5 / rates[f"EUR/{currency}"])  # 5€ fee
+        if currency == 'EUR':
+            fee = 5
+        else:
+            fee = (5 / rates[f"EUR/{currency}"])  # 5€ fee
         account.balance -= fee
+
 
 
 # START initial Bank Account in ATM
@@ -141,39 +148,61 @@ while loop:
     command = int(input())
 
     if command == 1:
-        atm.switch_account()
+        while not atm.switch_account():
+            continue
 
     elif command == 2:
-        first_name = input("Enter first name: ")
-        last_name = input("Enter last name: ")
+        first_name = input(
+            "Enter first name: ")
+        last_name = input(
+            "Enter last name: ")
         full_name = first_name + ' ' + last_name
         atm.create_account(Bank_Account(account_holder=full_name, balance=0))
 
     elif command == 3:
         while True:
             try:
-                amount = int(input("Enter amount you want to deposit: "))
-                break  # Exit the loop if successful conversion to int
+                amount = int(input(
+                    "Enter amount you want to deposit: "))
+                confirm = input(
+                    "Are you sure you want to deposit this amount (type 'y' for 'yes', any other input is 'no')? ")
+                if confirm == 'y':
+                    break  # Exit the loop if successful conversion to int
+                else:
+                    continue
+                    
             except ValueError:
                 print("Invalid input. Please enter a number.")
 
         atm.deposit(atm.current_user, amount)
 
     elif command == 4:
-        amount = 0
+        available_funds = atm.current_user.balance  # available funds of current user
         withdraw_numbers = [10, 20, 30, 50, 100, 150, 200, 300, 500]
-        while True:
-            try:
-                amount = int(input(
-                    "Enter amount you want to withdraw (10, 20, 30, 50, 100, 150, 200, 300, 500): "))
-                if amount in withdraw_numbers:
-                    break  # Exit the loop if successful conversion to int
-                else:
-                    print("Invalid amount.")
-            except ValueError:
-                print("Invalid input. Please enter a number.")
+        if available_funds >= withdraw_numbers[0]:
+            print("This is the list of options you can withdraw:")
+            len_ = 0
+            for i, num in enumerate(withdraw_numbers, 1):
+                if available_funds >= num:
+                    print(f"{i}: {num}")
+                    len_ += 1
+            
+            while True:
+                try:
+                    idx = int(input(
+                        f"Enter the number in front of the amount you want to withdraw (1 - {len_}): "))
+                    if idx >= 1 and idx <= len_:
+                        break  # Exit the loop if successful conversion to int
+                    else:
+                        print("Invalid amount.")
+                        continue
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
 
-        atm.withdraw(atm.current_user, amount)
+            atm.withdraw(atm.current_user, idx)
+        
+        else:
+            print("Sorry, you don't have sufficient funds to withdraw any amount of money from this ATM.")
 
     elif command == 5:
         atm.get_balance(atm.current_user)
@@ -192,6 +221,7 @@ while loop:
 
     elif command == 7:
         loop = False  # exits App
+        print("Exiting app...")
 
     else:
         print("Invalid command.")
@@ -203,23 +233,56 @@ USER REVIEW:
     Switch Accounts:
         - I accidentaly typed 3 instead of 2 when choosing accounts, it took me to the menu and I had to do it all over again...
     
+    Fix: 
+        - The ATM keeps asking the user to pick the number of an account until the user enters a bank account number that exists in the ATM, so it
+        doesn't go straight to the menu when an invalid account number is picked.
+        - After every failed attempt, the ATM displays the possible bank account numbers to choose from
+            - Q: Should the list of bank accounts only be displayed once, or even after every failed attempt? 
+    
     Deposit funds:
         - Poor self awarenes protocol, I accidentally typed one extra 0 and it didnt ask me to verify the input...
         - Again with the menu...
     
+    Fix:
+        - The ATM now asks if the user to confirm the amount they want to deposit
+        - The menu has now a user-friendlier format, showing when it starts
+            - Q: How else can the menu be displayed? It has to automatically display for the next command
+    
     Withdraw funds:
         - Why is 45 invalid number? If I can type what I want, why am I not allowed to input 99% of numbers??
+    
+    Fix:
+        - 45 was an invalid number as the only numbers the ATM accepts are 10, 20, 30, 50, 100, 150, 200, 300 and 500
+        - This has been fixed so that the user has to enter the number in front of the possible withdraw amounts (see function withdraw())
+        - Now the ATM only gives the list of options the user can actually withdraw as it checks their balance beforehand
+            - Q: Shoould the ATM always list all options (10, 20, 30, 50, 100, 150, 200, 300 and 500) and then only after the user chooses an amount, say if 
+            it is possible to withdraw that amount? 
+                - This is why I left some lines commented in the function, in case of a different implementation
 
     Display current balance:
         - I dont want the answer in third person.
         - I dont want to see 1000 decimals behind my number.
         - The damn menu pops right after showing me the balance, I dont wanna have to scroll up to find it.
+
+    Fix:
+        - It's in second person
+        - It shows only 2 decimal points (just like real money)
+        - It's easier to find the print statements before the menu
     
     Change currency:
         - I wanted to change USD to EUR and the app broke...
         - I think Im losing my money when Im changing currencies... This is theft! I might take this to court if proven right.
     
+    Fix:
+        - Changing currency to EUR is now possible
+        - Losing money is actually part of changing currencies. This can be checked by returning back to EUR and seeing if the amount has been deducted 5 EUR
+        for every change of currency
+
     Other:
         - The first option in the menu is capitalized, others are not, not very professional
         - The app is trash, I wouldn't recommend it to anyone
+
+    Fix:
+        - Only first word is capitalized
+        - It ain't trash anymore ;)
 """
