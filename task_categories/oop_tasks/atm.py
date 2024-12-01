@@ -83,7 +83,10 @@ Account: {account.account_holder} ({account.currency})
         #     print("Check your balance to see how much money you can withdraw")
 
     def get_balance(self, account):
-        print(f"You have {account.balance:.2f} {account.currency}.") # Why was this differently formated? Your change gave me an error (SyntaxError: unterminated string literal (detected at line 82))
+        # Why was this differently formated? Your change gave me an error (SyntaxError: unterminated string literal (detected at line 82))
+        # Linter did it. If the line is too long, you need to break it but you need to add \ at the end for the code not to break (no idea why linter doesn't)
+        print(f"You have {account.balance:.2f} {\
+              account.currency}.")  # Here is an example
 
     def switch_account(self):
         for i, acc in enumerate(self.accounts, 1):
@@ -99,7 +102,7 @@ Account: {account.account_holder} ({account.currency})
                 break  # Exit the loop if successful conversion to int
             except ValueError:
                 print("Invalid input. Please enter a number.")
-                
+
         self.current_user = self.accounts[name - 1]
         return True
 
@@ -133,7 +136,6 @@ Account: {account.account_holder} ({account.currency})
         else:
             fee = (5 / rates[f"EUR/{currency}"])  # 5€ fee
         account.balance -= fee
-
 
 
 # START initial Bank Account in ATM
@@ -170,7 +172,7 @@ while loop:
                     break  # Exit the loop if successful conversion to int
                 else:
                     continue
-                    
+
             except ValueError:
                 print("Invalid input. Please enter a number.")
 
@@ -186,7 +188,7 @@ while loop:
                 if available_funds >= num:
                     print(f"{i}: {num}")
                     len_ += 1
-            
+
             while True:
                 try:
                     idx = int(input(
@@ -200,9 +202,10 @@ while loop:
                     print("Invalid input. Please enter a number.")
 
             atm.withdraw(atm.current_user, idx)
-        
+
         else:
-            print("Sorry, you don't have sufficient funds to withdraw any amount of money from this ATM.")
+            print(
+                "Sorry, you don't have sufficient funds to withdraw any amount of money from this ATM.")
 
     elif command == 5:
         atm.get_balance(atm.current_user)
@@ -237,7 +240,9 @@ USER REVIEW:
         - The ATM keeps asking the user to pick the number of an account until the user enters a bank account number that exists in the ATM, so it
         doesn't go straight to the menu when an invalid account number is picked.
         - After every failed attempt, the ATM displays the possible bank account numbers to choose from
-            - Q: Should the list of bank accounts only be displayed once, or even after every failed attempt? 
+            - Q: Should the list of bank accounts only be displayed once, or even after every failed attempt?
+            - A: The complaint here was about going to the menu after choosing an invalid selection.
+            You fixed it well, only thing thats missing is the 0 in the menu, telling the user they can type 0 to go back since you added that logic.
     
     Deposit funds:
         - Poor self awarenes protocol, I accidentally typed one extra 0 and it didnt ask me to verify the input...
@@ -245,8 +250,10 @@ USER REVIEW:
     
     Fix:
         - The ATM now asks if the user to confirm the amount they want to deposit
+        - U: You can make it more user friendly, the key is to make it as simple as possible but as informative as possible
         - The menu has now a user-friendlier format, showing when it starts
             - Q: How else can the menu be displayed? It has to automatically display for the next command
+            - A: There is a time.sleep() method that waits for a number of seconds before continuing with the rest of the execution, allowing smoother console interactions.
     
     Withdraw funds:
         - Why is 45 invalid number? If I can type what I want, why am I not allowed to input 99% of numbers??
@@ -258,6 +265,7 @@ USER REVIEW:
             - Q: Shoould the ATM always list all options (10, 20, 30, 50, 100, 150, 200, 300 and 500) and then only after the user chooses an amount, say if 
             it is possible to withdraw that amount? 
                 - This is why I left some lines commented in the function, in case of a different implementation
+            - A: Yes, the fix was to make it appear in the same style as the menu, choosing numbers.
 
     Display current balance:
         - I dont want the answer in third person.
@@ -266,8 +274,10 @@ USER REVIEW:
 
     Fix:
         - It's in second person
+        - U: Better way is to display it as: "Your account balance: 100 EUR"
         - It shows only 2 decimal points (just like real money)
         - It's easier to find the print statements before the menu
+        - U: Again, it appears right away, if there are users with only 2 lines of console available, its an awful UX
     
     Change currency:
         - I wanted to change USD to EUR and the app broke...
@@ -277,6 +287,8 @@ USER REVIEW:
         - Changing currency to EUR is now possible
         - Losing money is actually part of changing currencies. This can be checked by returning back to EUR and seeing if the amount has been deducted 5 EUR
         for every change of currency
+        - U: Fix was to let the user know before changing that it costs 5 EUR equivalent in the currency their account is using.
+        Users need to be informed about everything, especially about stuff that directly affects them.
 
     Other:
         - The first option in the menu is capitalized, others are not, not very professional
@@ -285,4 +297,11 @@ USER REVIEW:
     Fix:
         - Only first word is capitalized
         - It ain't trash anymore ;)
+        - U: Little better, still bad UX
+
+        
+    The key takeaway from this user review mock is to always test your app like a user that knows what the app can do but wants it made in the simplest way possible.
+    You have to doubt yourself here and test your app with a mindset that there are 100s of better apps that do the same thing as yours. Then you bust your ass to improve it, and repeat the cycle.
+
+    I will take a look at the code after the user is satisfied.
 """
