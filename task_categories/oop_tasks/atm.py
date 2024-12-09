@@ -43,6 +43,7 @@ Rules:
 
 """
 
+import time
 
 class Bank_Account():
     def __init__(self, account_holder: str, balance: int) -> None:
@@ -75,18 +76,18 @@ Account: {account.account_holder} ({account.currency})
     def withdraw(self, account, idx: int):
         withdraw_numbers = [10, 20, 30, 50, 100, 150, 200, 300, 500]
         amount = withdraw_numbers[idx - 1]
-        # if account.balance >= amount:
-        account.balance -= amount
-        print(f"Successfully withdrawn {amount} {account.currency}.")
-        # else:
-        #     print(f"Not enough funds to withdraw {amount} {account.currency}.")
-        #     print("Check your balance to see how much money you can withdraw")
+        if account.balance >= amount:
+            account.balance -= amount
+            print(f"Successfully withdrawn {amount} {account.currency}.")
+        else:
+            print(f"Not enough funds to withdraw {amount} {account.currency}.")
+            print("Check your balance to see how much money you can withdraw.")
+            time.sleep(3) # extra time to read
 
     def get_balance(self, account):
         # Why was this differently formated? Your change gave me an error (SyntaxError: unterminated string literal (detected at line 82))
         # Linter did it. If the line is too long, you need to break it but you need to add \ at the end for the code not to break (no idea why linter doesn't)
-        print(f"You have {account.balance:.2f} {\
-              account.currency}.")  # Here is an example
+        print(f"Your account balance: {account.balance:.2f} {account.currency}.")  # Here is an example
 
     def switch_account(self):
         for i, acc in enumerate(self.accounts, 1):
@@ -96,7 +97,7 @@ Account: {account.account_holder} ({account.currency})
             try:
                 name = int(input(
                     "Choose an account by entering the number of the holder you want to switch to: "))
-                if name > len(self.accounts):
+                if name > len(self.accounts) or name < 1:
                     print("Invalid input. No such account with that number.")
                     return False
                 break  # Exit the loop if successful conversion to int
@@ -135,16 +136,23 @@ Account: {account.account_holder} ({account.currency})
             fee = 5
         else:
             fee = (5 / rates[f"EUR/{currency}"])  # 5€ fee
-        account.balance -= fee
 
+        if account.balance >= fee:
+            account.balance -= fee
+        else:
+            print("You don't have sufficient funds to change currency.")
+            print("Minimum required: 5 EUR (currency change fee).2")
 
 # START initial Bank Account in ATM
 joshua = Bank_Account('Joshua Bell', 100)
 atm = ATM(joshua)
 # END initial Bank Account in ATM
 
+print("Loading menu...")
+
 loop = True
 while loop:
+    time.sleep(3) # default seconds of time to read, before the menu appears 
     atm.menu(atm.current_user)
 
     command = int(input())
@@ -179,33 +187,29 @@ while loop:
         atm.deposit(atm.current_user, amount)
 
     elif command == 4:
-        available_funds = atm.current_user.balance  # available funds of current user
+        # available_funds = atm.current_user.balance  # available funds of current user
         withdraw_numbers = [10, 20, 30, 50, 100, 150, 200, 300, 500]
-        if available_funds >= withdraw_numbers[0]:
-            print("This is the list of options you can withdraw:")
-            len_ = 0
-            for i, num in enumerate(withdraw_numbers, 1):
-                if available_funds >= num:
-                    print(f"{i}: {num}")
-                    len_ += 1
+        # if available_funds >= withdraw_numbers[0]:
+        #     print("This is the list of options you can withdraw:")
+        #     len_ = 0
+        for i, num in enumerate(withdraw_numbers, 1):
+            print(f"{i}: {num}")
 
-            while True:
-                try:
-                    idx = int(input(
-                        f"Enter the number in front of the amount you want to withdraw (1 - {len_}): "))
-                    if idx >= 1 and idx <= len_:
-                        break  # Exit the loop if successful conversion to int
-                    else:
-                        print("Invalid amount.")
-                        continue
-                except ValueError:
-                    print("Invalid input. Please enter a number.")
+        while True:
+            try:
+                idx = int(input(
+                    f"Enter the number in front of the amount you want to withdraw (1 - 9): "))
+                if idx >= 1 and idx <= 9:
+                    break  # Exit the loop if successful conversion to int
+                else:
+                    print("Invalid amount.")
+                    continue
+            except ValueError:
+                print("Invalid input. Please enter a number.")
 
-            atm.withdraw(atm.current_user, idx)
+        atm.withdraw(atm.current_user, idx)
 
-        else:
-            print(
-                "Sorry, you don't have sufficient funds to withdraw any amount of money from this ATM.")
+
 
     elif command == 5:
         atm.get_balance(atm.current_user)
@@ -220,7 +224,12 @@ while loop:
                 print("No such currency available.")
             else:
                 break
-        atm.change_currency(atm.current_user, currency)
+        confirm = input("""Changing currency will cost the equivalent of 5 EUR to whatever currency you are changing to.
+Do you still want to proceed (type 'y' for 'yes', any other input is 'no')? """) 
+
+        if confirm == 'y':
+            atm.change_currency(atm.current_user, currency)
+            print(f"Successfully changed currency to {currency}.")
 
     elif command == 7:
         loop = False  # exits App
@@ -243,6 +252,7 @@ USER REVIEW:
             - Q: Should the list of bank accounts only be displayed once, or even after every failed attempt?
             - A: The complaint here was about going to the menu after choosing an invalid selection.
             You fixed it well, only thing thats missing is the 0 in the menu, telling the user they can type 0 to go back since you added that logic.
+                - Only existing accounts can be chosen
     
     Deposit funds:
         - Poor self awarenes protocol, I accidentally typed one extra 0 and it didnt ask me to verify the input...
@@ -254,7 +264,7 @@ USER REVIEW:
         - The menu has now a user-friendlier format, showing when it starts
             - Q: How else can the menu be displayed? It has to automatically display for the next command
             - A: There is a time.sleep() method that waits for a number of seconds before continuing with the rest of the execution, allowing smoother console interactions.
-    
+                - Implemented for every appearance of the menu
     Withdraw funds:
         - Why is 45 invalid number? If I can type what I want, why am I not allowed to input 99% of numbers??
     
@@ -266,6 +276,7 @@ USER REVIEW:
             it is possible to withdraw that amount? 
                 - This is why I left some lines commented in the function, in case of a different implementation
             - A: Yes, the fix was to make it appear in the same style as the menu, choosing numbers.
+                - Done!
 
     Display current balance:
         - I dont want the answer in third person.
@@ -275,6 +286,7 @@ USER REVIEW:
     Fix:
         - It's in second person
         - U: Better way is to display it as: "Your account balance: 100 EUR"
+            - Done
         - It shows only 2 decimal points (just like real money)
         - It's easier to find the print statements before the menu
         - U: Again, it appears right away, if there are users with only 2 lines of console available, its an awful UX
@@ -289,6 +301,8 @@ USER REVIEW:
         for every change of currency
         - U: Fix was to let the user know before changing that it costs 5 EUR equivalent in the currency their account is using.
         Users need to be informed about everything, especially about stuff that directly affects them.
+            - User is now informed about the fee.
+            - The ATM checks if the user has sufficient funds to change currency
 
     Other:
         - The first option in the menu is capitalized, others are not, not very professional
@@ -298,6 +312,7 @@ USER REVIEW:
         - Only first word is capitalized
         - It ain't trash anymore ;)
         - U: Little better, still bad UX
+            - Any suggestions?
 
         
     The key takeaway from this user review mock is to always test your app like a user that knows what the app can do but wants it made in the simplest way possible.
