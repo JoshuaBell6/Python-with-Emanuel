@@ -26,6 +26,7 @@
 
 - ### Change curreny
   - Changing from EUR to GBP took me from 45 EUR to 33.33 GBP (somethin' aint right)
-  - Infor the user about the fee before choosing to change the currency and ask if they want to proceed
+  - Inform the user about the fee before choosing to change the currency and ask if they want to proceed
+  - Good UX is to calculate the fee in the current currency and display that information, not "5 EUR of whatever currency"
   - Allow user to type letters in any form when choosing currency (or better yet, make the same menu as everything else)
   - NO BACK OPTION
